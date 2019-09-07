@@ -1,0 +1,5 @@
+{% for item in conf %}
+<p>{{ item.device }}</p>
+<p>{{ item.date_created }}</p>
+<a href="/config/{{ item.id }}">View Full Configuration</a>
+{% endfor %}
