@@ -32,7 +32,7 @@ def index():
     #return render_template('index.html')
     return ("<html><head><title>Config</title></head><body><h1>Network Configuration Backup Tool</h1></body></html>")
 
-@app.route('/backup')
+@app.route('/config/backup')
 def backup():
     net_connect = Netmiko(**cisco1)                                                                                                                
     command = "show run"                                                                                                                           
@@ -47,17 +47,17 @@ def backup():
     #return render_template('index.html')
     return ("<html><head><title>Config</title></head><body><pre>Configuration has been saved to the database.</pre></body></html>")
 
-@app.route('/configs')
+@app.route('/config')
 def getconf():
     conf = Config.query.all()
-    return render_template('backup/configs.html', conf=conf)
+    return render_template('config/configs.html', conf=conf)
     for item in conf:
         print (f'<h1>Configuration backup: { item.date_created } </h1>')
 
-@app.route('/config/<id>')
-def fullconf(id):
+@app.route('/config/view/<id>')
+def confview(id):
     conf = Config.query.filter_by(id=id).first()
-    return render_template('backup/config-full.html', conf=conf)
+    return render_template('config/config-full.html', conf=conf)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=5000, debug=True)
