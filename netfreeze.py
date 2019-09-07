@@ -32,6 +32,14 @@ def index():
     #return render_template('index.html')
     return ("<html><head><title>Config</title></head><body><h1>Network Configuration Backup Tool</h1></body></html>")
 
+# Config Backup Routes #
+@app.route('/config')
+def getconf():
+    conf = Config.query.all()
+    return render_template('config/configs.html', conf=conf)
+    for item in conf:
+        print (f'<h1>Configuration backup: { item.date_created } </h1>')
+
 @app.route('/config/backup')
 def backup():
     net_connect = Netmiko(**cisco1)                                                                                                                
@@ -46,13 +54,6 @@ def backup():
     db.session.commit()
     #return render_template('index.html')
     return ("<html><head><title>Config</title></head><body><pre>Configuration has been saved to the database.</pre></body></html>")
-
-@app.route('/config')
-def getconf():
-    conf = Config.query.all()
-    return render_template('config/configs.html', conf=conf)
-    for item in conf:
-        print (f'<h1>Configuration backup: { item.date_created } </h1>')
 
 @app.route('/config/view/<id>')
 def confview(id):
